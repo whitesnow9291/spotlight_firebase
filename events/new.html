@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../bootstrap/assets/favicon.ico">
+
+  <title>Spotlight</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="../bootstrap/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="event.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="../bootstrap/assets/js/ie-emulation-modes-warning.js"></script>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!-- jQuery UI CSS -->
+  <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
+  <link href="../bootstrap/tokenfield/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
+  <!-- Tokenfield CSS -->
+  <link href="../bootstrap/tokenfield/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
+  <!-- image preview upload -->
+  <link href="../bootstrap/imgprevupload/css/bootstrap-imageupload.css" rel="stylesheet">
+  <!-- toastr -->
+  <link href="../bootstrap/toastr/toastr.css" rel="stylesheet"/>
+<link href="../asset/common.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="masthead">
+      <h3 class="text-muted logo_div"><img class='logo_img' src="../asset/logo.png" /></h3>
+      <nav>
+        <ul class="nav nav-justified">
+          <li class="active"><a href="index.html">Events</a></li>
+          <li><a href="../places/index.html">Places</a></li>
+          <li><a href="../cities/index.html">Cities</a></li>
+          <li><a href="../albums/index.html">Albums</a></li>
+          <li><a href="../access/index.html">Access</a></li>
+          <li><a href="../account/index.html">Account</a></li>
+
+        </ul>
+      </nav>
+    </div>
+
+    <div class="row col-sm-8 col-sm-offset-2">
+      <h1></h1>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="input1" class="col-sm-2 control-label">Event Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputEventName" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="input2" class="col-sm-2 control-label">Location</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputLocation" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="input3" class="col-sm-2 control-label">Location Type</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputLocationType" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="input4" class="col-sm-2 control-label">City</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="inputCity" required>
+              <option value="-1">Select City</option>
+              <option>City1</option>
+              <option>City2</option>
+              <option>City3</option>
+              <option>City4</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input5" class="col-sm-2 control-label">Date</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" id="inputDate" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="input6" class="col-sm-2 control-label">Start Time</label>
+          <div class="col-sm-4">
+            <input type="time" class="form-control" id="inputStartTime" placeholder="" required>
+          </div>
+          <label for="input7" class="col-sm-2 control-label">End Time</label>
+          <div class="col-sm-4">
+            <input type="time" class="form-control" id="inputEndTime" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="tokenfield" class="col-sm-2 control-label">Tags</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="tokenfield" value="" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- bootstrap-imageupload. -->
+            <label for="tokenfield" class="col-sm-2 control-label">Image </label>
+            <div class="imageupload col-sm-10">
+                <div class="file-tab">
+                    <label class="btn btn-default btn-file">
+                        <span>Browse</span>
+                        <!-- The file is stored here. -->
+                        <input type="file" name="image-file" id='inputImage' required>
+                    </label>
+                    <button type="button" class="btn btn-default">Remove</button>
+                </div>
+                <div class="url-tab panel-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control hasclear" placeholder="Image URL">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default">Remove</button>
+                    <!-- The URL is stored here. -->
+                    <input type="hidden" name="image-url">
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+          <label for="input8" class="col-sm-2 control-label">Description</label>
+          <div class="col-sm-10">
+            <textarea type="text" class="form-control" id="inputDescription" placeholder="" required></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="input8" class="col-sm-2 control-label">Address</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputAddress" placeholder="" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="input9" class="col-sm-2 control-label">Ticket Link</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputTicketLink" placeholder="" >
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-primary btnAdd">Add</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+<img style="left:50%;top:50%;" width="100px" height="100px" id='loading_gif' src = '../asset/loading.gif' />
+  </div> <!-- /container -->
+  <!-- authentication middleware -->
+    <script src="../bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-storage.js"></script>
+    <script src="../firebase.js"></script>
+    <script src="../auth.js"></script>
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="../bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+  <!-- input with token -->
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script type="text/javascript" src="../bootstrap/tokenfield/bootstrap-tokenfield.js" charset="UTF-8"></script>
+  <!-- image upload with preview -->
+  <script src="../bootstrap/imgprevupload/js/bootstrap-imageupload.js"></script>
+  <!-- googleapis -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXGt-0-2NBpBck6SkBXZhwW6o90jgn36Y&libraries=places"></script>
+    <script src="../validate.js"></script>
+  <script src="../bootstrap/toastr/toastr.min.js"></script>
+  <script src="new.js"></script>
+</body>
+</html>

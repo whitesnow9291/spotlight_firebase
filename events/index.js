@@ -1,0 +1,149 @@
+
+$(document).ready(function() {
+  var database = firebase.database();
+  var cities = database.ref().child('cities');
+  var events = database.ref().child('events');
+  var storage = firebase.storage().ref().child('events');
+  var user = firebase.auth().currentUser;
+  //pagination and search
+  var searchInput = $('#inputSearch');
+  var searchBtn = $('#btnSearch');
+  searchBtn.click(function(){
+    var searchkey = searchInput.val();
+    loaddata(searchkey);
+  });
+  var currentpage=1;
+  var perpagenum = 10;
+  var totaldata=[];
+  loaddata();
+  function loaddata(searchkey){
+    $("#loading_gif").show();
+    var cur = new Date();
+    events.orderByChild('expired').endAt(cur.getTime()).once('value').then(function(snapshot){
+        //console.log(snapshot.val());
+        deldata = [];
+        deldata_object = snapshot.val();
+        for (var variable in deldata_object) {
+          var temp = {};
+          temp[variable] = deldata_object[variable];
+          deldata.push(temp);
+        }
+
+        Promise.all(
+          $.map( deldata, function(event) {
+            var key = Object.keys(event)[0];
+            var data = event[key];
+            if (data.image){
+              firebase.storage().ref('events/' + data.image).delete().then(function(){
+                console.log(data.image+" file deleted");
+              });
+            }
+            return database.ref('events/' + key).remove();
+          })
+        ).then(function(){
+          if (searchkey){
+            var searchfor = $('#selectForSearch').val();
+                events.orderByChild(searchfor).startAt(searchkey).endAt(searchkey+'\uf8ff')
+                .once('value').then(function(snapshot){
+                    totaldata_object = snapshot.val();
+                    totaldata = [];
+                    for (var variable in totaldata_object) {
+                      var temp = {};
+                      temp[variable] = totaldata_object[variable];
+                      totaldata.push(temp);
+                    }
+                    currentpage=1;
+                    renderpagination();
+                });
+            }
+            else{
+              events//.startAt(searchkey).endAt(searchkey+'\uf8ff')
+              .once('value').then(function(snapshot){
+                  totaldata_object = snapshot.val();
+                  totaldata = [];
+                  for (var variable in totaldata_object) {
+                    var temp = {};
+                    temp[variable] = totaldata_object[variable];
+                    totaldata.push(temp);
+                  }
+                  currentpage=1;
+                  renderpagination();
+              });
+            }
+
+        });
+    });
+
+
+  }
+  function renderpagination(){
+     $('#next').prop('disabled', islastpage());
+     $('#prev').prop('disabled', isfirstpage());
+     var paginationdata = {};
+     if (totaldata){
+       var start_pos =(currentpage-1)*perpagenum;
+       for (var i = start_pos;i<start_pos+perpagenum;i++){
+         for (var variable in totaldata[i]) {
+           paginationdata[variable]=totaldata[i][variable];
+         }
+
+       }
+     }
+     viewBuild(paginationdata);
+  }
+  function islastpage(){
+    if (!totaldata) return true;
+    if (totaldata.length<=currentpage*perpagenum){
+     return true;
+    }
+    else {
+      return false;
+    }
+  }
+  function isfirstpage(){
+    if (currentpage!=1){
+     return false;
+    }
+    else {
+      return true;
+    }
+  }
+  $('#prev').click(moveBackward);
+  $('#next').click(moveForward);
+  function moveForward() {
+
+      currentpage++;
+      renderpagination();
+  }
+
+  function moveBackward() {
+
+    currentpage--;
+    renderpagination();
+  }
+  // load city data
+
+  function viewBuild(events_data){
+    var events_tbody = $('#events_tbody');
+    events_tbody.empty();
+    if (events_data){
+      $.each( events_data, function( key, value ) {
+
+        var one_event ="<tr>"+
+         "<td><img class='imgEvent' src='"+value.download_url+"'></td>"+
+         "<td width=100%>"+
+           "<h3>"+value.eventName+"</h3>"+
+           "<span>"+value.location+"</span>&emsp;"+
+           "<span>"+value.locationtype+"</span>&emsp;"+
+           "<span>"+value.city+"</span>&emsp;"+
+           "<span>"+value.address+"</span>&emsp;"+
+           "<span>"+value.date+"</span>"+
+         "</td>"+
+         "<td style='vertical-align:middle'><a href=edit.html?id="+key+" class='btn btn-link'>edit</a></td>"+
+       "</tr>";
+        events_tbody.append(one_event);
+      });
+    }
+    $("#loading_gif").hide();
+  }
+});

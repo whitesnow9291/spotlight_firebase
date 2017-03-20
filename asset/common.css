@@ -1,0 +1,10 @@
+#loading_gif{
+left: 50%;
+position: absolute;
+top: 50%;
+transform: translate(-50%,-50%) !important;
+z-index: 2;
+}
+#selectForSearch{
+  margin-left: 20px;
+}
