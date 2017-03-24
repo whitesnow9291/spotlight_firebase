@@ -1,7 +1,15 @@
 body {
   padding-top: 20px;
 }
-
+.pip{
+  display: inline-flex !important;
+}
+.remove{
+  margin:auto 10px;
+}
+.album_name{
+  margin: auto;
+}
 .footer {
   padding-top: 40px;
   padding-bottom: 40px;

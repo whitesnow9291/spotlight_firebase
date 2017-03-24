@@ -9,11 +9,11 @@ $(document).ready(function() {
         var fileReader = new FileReader();
         fileReader.onload = (function(e) {
           var file = e.target;
-          $("<span class=\"pip\">" +
+          $("<div class=\"pip\">" +
             "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-            "<br/><span class=\"remove\">Remove</span>" +
-            "<p>"+e.target.fileName+"</p>"+
-            "</span>").insertAfter("#files");
+            "<br/><button class=\"remove\">Remove</button>" +
+            "<input class='album_name form-control' id="+file.lastModified+" value="+e.target.fileName+" >"+
+            "</div>").insertAfter("#files");
           $(".remove").click(function(){
             $(this).parent(".pip").remove();
           });
@@ -27,6 +27,7 @@ $(document).ready(function() {
 
         });
         fileReader.fileName = files[i].name;
+        fileReader.lastModified = files[i].lastModified;
         fileReader.readAsDataURL(f);
       }
     });

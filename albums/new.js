@@ -54,12 +54,13 @@ $(document).ready(function() {
     }
     if (event_images.length>0){
       dir_name = Math.random().toString(36).substring(16);
+      var album_names = $('.album_name');
       updatedata.dir_name = dir_name;
       Promise.all(
-        $.map( event_images, function(file ) {
-          file_name = Math.random().toString(36).substring(16);
+        $.map( event_images, function(file,i ) {
+          //file_name = Math.random().toString(36).substring(16);
 
-          file_name = file.name;
+          file_name =$('#'+file.lastModified)[0].value; //file.name;
           file_names.push(file_name);
           return storage.child(dir_name).child(file_name).put(file);
         })
