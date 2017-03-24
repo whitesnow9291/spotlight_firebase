@@ -42,6 +42,7 @@ $(document).ready(function() {
     var dir_name = '';
     var file_names = [];
     var download_urls=[];
+    var storage_names=[];
     var updatedata = {
       'albumView':0,
       'eventName':eventName.val(),
@@ -51,6 +52,7 @@ $(document).ready(function() {
       'dir_name':dir_name,
       'download_urls':[],
       'images':file_names,
+      'storage_names':storage_names
     }
     if (event_images.length>0){
       dir_name = Math.random().toString(36).substring(16);
@@ -60,9 +62,11 @@ $(document).ready(function() {
         $.map( event_images, function(file,i ) {
           //file_name = Math.random().toString(36).substring(16);
 
-          file_name =$('#'+file.lastModified)[0].value; //file.name;
+          file_name =$('.album_name#'+file.lastModified)[0].value; //file.name;
           file_names.push(file_name);
-          return storage.child(dir_name).child(file_name).put(file);
+          var storage_name = Math.random().toString(36).substring(7);
+          storage_names.push(storage_name);
+          return storage.child(dir_name).child(storage_name).put(file);
         })
       ).then(function(snapshot){
         //console.log(snapshot[0].downloadURL);

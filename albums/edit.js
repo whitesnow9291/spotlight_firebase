@@ -55,10 +55,15 @@
       if (download_urls){
         for (var i=0;i<download_urls.length;i++) {
           if (download_urls[i]){
+            // $("<div class='pip'>" +
+            //   "<img class='imageThumb' src='" + download_urls[i] + "' title='" + album_data.images[i] + "'/>" +
+            //   "<br/><button id ="+i+" class='remove'>Remove</button>" +
+            //   "<input class='album_name form-control' id="+i+" value="+album_data.images[i]+" >"+
+            //   "</div>").insertAfter("#files");
             $("<span class=\"pip\">" +
               "<img class=\"imageThumb\" src=\"" + download_urls[i] + "\" title=\"" + album_data.images[i] + "\"/>" +
               "<br/><span id ="+i+" class=\"remove\">Remove</span>" +
-              "<p>"+album_data.images[i]+"</p>"+
+              "<input class='album_name form-control' id=id"+i+" value="+album_data.images[i]+" >"+
               "</span>").insertAfter("#files");
           }
 
@@ -67,13 +72,17 @@
           $("#loading_gif").show();
           var del_span = $(this).parent(".pip");
           var del_id = $(this).attr('id');
-          Promise.all([firebase.storage().ref('albums/'+album_data.dir_name+"/"+album_data.images[del_id]).delete(),
+          Promise.all([firebase.storage().ref('albums/'+album_data.dir_name+"/"+album_data.storage_names[del_id]).delete(),
                       database.ref('albums/'+id+"/images/"+del_id).remove(),
-                      database.ref('albums/'+id+"/download_urls/"+del_id).remove()]
+                      database.ref('albums/'+id+"/download_urls/"+del_id).remove(),
+                      database.ref('albums/'+id+"/views/"+del_id).remove(),
+                    database.ref('albums/'+id+"/storage_names/"+del_id).remove()]
           ).then(function(snapshot){
             //console.log(snapshot[0].downloadURL);
             album_data.download_urls[del_id]=null;
             album_data.images[del_id]=null;
+            album_data.storage_names[del_id] = null;
+            album_data.views[del_id] = null;
             del_span.remove();
             $("#loading_gif").hide();
           });
@@ -95,7 +104,13 @@
       var event_images = files.files;
       var dir_name = album_data.dir_name?album_data.dir_name:Math.random().toString(36).substring(16);
       var file_names = album_data.images?album_data.images:[];
+      for (var i=0;i<file_names.length;i++){
+        if (file_names[i])
+        file_names[i] = $('.album_name#id'+i)[0].value;
+      }
       var download_urls=album_data.download_urls?album_data.download_urls:[];
+      var storage_names = album_data.storage_names?album_data.storage_names:[];
+      var views = album_data.views?album_data.views:[];
       var updatedata = {
         'albumView':album_data.albumView?album_data.albumView:0,
         'eventName':eventName.val(),
@@ -105,6 +120,8 @@
         'dir_name':album_data.dir_name,
         'download_urls':download_urls,
         'images':file_names,
+        'storage_names':storage_names,
+        'views':views
       }
       if (event_images.length==0){
         if (file_names.length==0){
@@ -121,12 +138,14 @@
       if (event_images.length>0){
 
         Promise.all(
-          $.map( event_images, function(file ) {
+          $.map( event_images, function(file,i ) {
             //file_name = Math.random().toString(36).substring(16);
-            file_name = file.name;
+            file_name =$('.album_name#'+file.lastModified)[0].value
             file_names.push(file_name);
-
-            return storage.child(dir_name).child(file_name).put(file);
+            var storage_name = Math.random().toString(36).substring(7);
+            storage_names.push(storage_name);
+            views.push(0);
+            return storage.child(dir_name).child(storage_name).put(file);
           })
         ).then(function(snapshot){
           //console.log(snapshot[0].downloadURL);
@@ -152,19 +171,16 @@
           console.log('old file deleted');
         });
       }
-      var views=[];
       if(updatedata.download_urls){
           for (var i = 0;i<updatedata.download_urls.length;i++){
             if (!updatedata.download_urls[i]){
               updatedata.download_urls.splice(i,1);
               updatedata.images.splice(i,1);
+              updatedata.storage_names.splice(i,1);
+              updatedata.views.splice(i,1);
             }
           }
-          for (var i = 0;i<updatedata.download_urls.length;i++){
-            views.push(0);
-          }
       }
-      updatedata.views=views;
 
       album.set(updatedata).then(function(){
           $("#loading_gif").hide();
@@ -181,7 +197,7 @@
         album.remove().then(function(){
           if (album_data.dir_name){
             Promise.all(
-              $.map( album_data.images, function(file ) {
+              $.map( album_data.storage_names, function(file ) {
                 return firebase.storage().ref('albums/' + album_data.dir_name+"/"+file).delete();
               })
             ).then(function(){
