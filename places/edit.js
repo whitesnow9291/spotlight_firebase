@@ -36,6 +36,12 @@ var inputday = $('.inputday');
     var storage = firebase.storage().ref('places/' + id);
     var place_data;
   //html input build
+  var googleaddressinput = document.getElementById('inputAddress');
+  var options = {
+    types: ['(cities)'],
+
+  };
+  autocomplete = new google.maps.places.Autocomplete(googleaddressinput, options);
   $('#tokenfield').tokenfield({
     autocomplete: {
       source: [],
@@ -81,7 +87,7 @@ var inputday = $('.inputday');
           $(selector).val(val);
         });
       }
-
+       $(".prev_image img").attr('src',place_data.download_url);
       btnEdit.click(edithander);
       $("#loading_gif").hide();
     }
@@ -105,8 +111,8 @@ var inputday = $('.inputday');
         "cover" : inputCover.val(),
         "city" : inputCity.val(),
         "dresscode" : inputDresscode.val(),
-        "image" : '',
-        'download_url':'',
+        "image" : place_data.image,
+        'download_url':place_data.download_url,
         "placeday" : {}
       }
       $.each(inputday,function(key,inputE){

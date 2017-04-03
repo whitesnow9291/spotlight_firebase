@@ -141,7 +141,7 @@ $(document).ready(function() {
          "</td>"+
          "<td style='vertical-align:middle'><a href=edit.html?id="+key+" class='btn btn-link'>edit</a></td>"+
        "</tr>";
-        events_tbody.append(one_event);
+        events_tbody.prepend(one_event);
       });
     }
     $("#loading_gif").hide();

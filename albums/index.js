@@ -111,7 +111,7 @@ $(document).ready(function() {
        "</td>"+
        "<td style='vertical-align:middle'><a href=edit.html?id="+key +" class='btn btn-link'>edit</a></td>"+
      "</tr>";
-      albums_tbody.append(one_album);
+      albums_tbody.prepend(one_album);
     });
     $("#loading_gif").hide();
   }

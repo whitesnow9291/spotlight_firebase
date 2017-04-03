@@ -23,6 +23,7 @@ $(document).ready(function() {
   var inputday = $('.inputday');
 
   var btnAdd = $('.btnAdd');
+
   // load city data
   $("#loading_gif").show();
   cities.on('value', function(snapshot) {
@@ -42,6 +43,12 @@ $(document).ready(function() {
     console.log(JSON.stringify(snapshot.val()));
   });
   //html input build
+  var googleaddressinput = document.getElementById('inputAddress');
+  var options = {
+    types: ['(cities)'],
+
+  };
+  autocomplete = new google.maps.places.Autocomplete(googleaddressinput, options);
   $('#tokenfield').tokenfield({
     autocomplete: {
       source: [],

@@ -79,6 +79,7 @@
        description.val(event_data.description);
        address.val(event_data.address);
        ticketlink.val(event_data.ticketlink);
+       $(".prev_image img").attr('src',event_data.download_url);
       btnEdit.click(edithander);
       $("#loading_gif").hide();
     }
@@ -105,8 +106,8 @@
         'starttime':starttime.val(),
         'endtime':endtime.val(),
         'tags':tags.val(),
-        'image':'',
-        'download_url':'',
+        'image':event_data.image,
+        'download_url':event_data.download_url,
         'description':description.val(),
         'address':address.val(),
         'ticketlink':ticketlink.val(),
