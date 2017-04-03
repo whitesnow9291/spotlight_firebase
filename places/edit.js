@@ -111,8 +111,8 @@ var inputday = $('.inputday');
         "cover" : inputCover.val(),
         "city" : inputCity.val(),
         "dresscode" : inputDresscode.val(),
-        "image" : place_data.image,
-        'download_url':place_data.download_url,
+        "image" : '',
+        'download_url':'',
         "placeday" : {}
       }
       $.each(inputday,function(key,inputE){
