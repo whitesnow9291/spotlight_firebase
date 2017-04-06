@@ -102,7 +102,7 @@
 
 
       var event_images = files.files;
-      var dir_name = album_data.dir_name?album_data.dir_name:Math.random().toString(36).substring(16);
+      var dir_name = album_data.dir_name?album_data.dir_name:Math.random().toString(36).substring(2);
       var file_names = album_data.images?album_data.images:[];
       for (var i=0;i<file_names.length;i++){
         if (file_names[i])
@@ -142,7 +142,7 @@
             //file_name = Math.random().toString(36).substring(16);
             file_name =$('.album_name#'+file.lastModified)[0].value
             file_names.push(file_name);
-            var storage_name = Math.random().toString(36).substring(7);
+            var storage_name = Math.random().toString(36).substring(2);
             storage_names.push(storage_name);
             views.push(0);
             return storage.child(dir_name).child(storage_name).put(file);

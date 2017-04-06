@@ -55,7 +55,7 @@ $(document).ready(function() {
       'storage_names':storage_names
     }
     if (event_images.length>0){
-      dir_name = Math.random().toString(36).substring(16);
+      dir_name = Math.random().toString(36).substring(2);
       var album_names = $('.album_name');
       updatedata.dir_name = dir_name;
       Promise.all(
@@ -64,7 +64,7 @@ $(document).ready(function() {
 
           file_name =$('.album_name#'+file.lastModified)[0].value; //file.name;
           file_names.push(file_name);
-          var storage_name = Math.random().toString(36).substring(7);
+          var storage_name = Math.random().toString(36).substring(2);
           storage_names.push(storage_name);
           return storage.child(dir_name).child(storage_name).put(file);
         })

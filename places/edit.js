@@ -124,7 +124,7 @@ var inputday = $('.inputday');
           }
       });
       if (place_image){
-        file_name = Math.random().toString(36).substring(16);
+        file_name = Math.random().toString(36).substring(2);
         updatedata.image = file_name;
         firebase.storage().ref('places/'+file_name).put(place_image).then(function(snapshot) {
           console.log('Uploaded a blob or file!');
